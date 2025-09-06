@@ -198,7 +198,7 @@ func parseWhoisSummary(result query.QueryResult, summary Summary) Summary {
 
 			// DNSSEC
 			if dnssec, ok := fields["dnssec"].(string); ok {
-				summary.DNSSEC.Enabled = strings.ToLower(dnssec) == "signeddelegation"
+				summary.DNSSEC.Enabled = dnssec == "signedDelegation"
 				summary.DNSSEC.Details = dnssec
 			}
 
