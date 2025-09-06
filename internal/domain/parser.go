@@ -46,7 +46,7 @@ func parseRDAPSummary(result query.QueryResult, summary Summary) Summary {
 
 	// Convert the RDAP struct to a map for easier parsing
 	if jsonBytes, err := json.Marshal(result.Data); err == nil {
-		json.Unmarshal(jsonBytes, &domainData)
+		_ = json.Unmarshal(jsonBytes, &domainData)
 	}
 
 	if domainData != nil {
@@ -316,7 +316,7 @@ func parseASNInfo(result query.QueryResult) *ASNInfo {
 
 	lines := strings.Split(result.RawData, "\n")
 	var currentSection string
-	
+
 	for _, line := range lines {
 		line = strings.TrimSpace(line)
 		if line == "" || strings.HasPrefix(line, "#") {
@@ -347,7 +347,7 @@ func parseASNInfo(result query.QueryResult) *ASNInfo {
 			if len(parts) == 2 {
 				key := strings.TrimSpace(parts[0])
 				value := strings.TrimSpace(parts[1])
-				
+
 				if value == "" {
 					continue
 				}
@@ -369,7 +369,7 @@ func parseASNInfo(result query.QueryResult) *ASNInfo {
 					asn.Status = value
 				case "abuse-mailbox", "orgabuseemail", "orgabuse-email":
 					asn.AbuseContact = value
-				case "organisation":
+				case "organisation", "organization": //nolint:misspell // Both spellings are valid (RIPE uses 's', ARIN uses 'z')
 					currentSection = "org"
 				case "role":
 					currentSection = "role"

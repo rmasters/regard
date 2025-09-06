@@ -58,7 +58,7 @@ func TestStripAnsiCodes(t *testing.T) {
 func TestGetTerminalWidth(t *testing.T) {
 	// This test mainly ensures the function doesn't panic and returns a reasonable value
 	width := getTerminalWidth()
-	
+
 	if width < 20 || width > 1000 {
 		t.Errorf("getTerminalWidth() = %d, expected reasonable value between 20-1000", width)
 	}
@@ -67,7 +67,7 @@ func TestGetTerminalWidth(t *testing.T) {
 func TestOutputSummary_Structure(t *testing.T) {
 	// Test that OutputSummary doesn't panic with various domain summaries
 	now := time.Now()
-	
+
 	tests := []struct {
 		name    string
 		summary domain.Summary
@@ -76,7 +76,7 @@ func TestOutputSummary_Structure(t *testing.T) {
 			name: "Active domain",
 			summary: domain.Summary{
 				Domain:   "example.com",
-				Status:   "active", 
+				Status:   "active",
 				Protocol: "RDAP",
 				Timeline: domain.Timeline{
 					Registration: &domain.TimelineEvent{
@@ -101,7 +101,7 @@ func TestOutputSummary_Structure(t *testing.T) {
 			},
 		},
 		{
-			name: "Available domain", 
+			name: "Available domain",
 			summary: domain.Summary{
 				Domain:   "available.example",
 				Status:   "available",
@@ -111,7 +111,7 @@ func TestOutputSummary_Structure(t *testing.T) {
 		{
 			name: "Expired domain with guidance",
 			summary: domain.Summary{
-				Domain:   "expired.example", 
+				Domain:   "expired.example",
 				Status:   "expired",
 				Protocol: "WHOIS",
 				Timeline: domain.Timeline{
@@ -145,7 +145,7 @@ func TestOutputSummary_Structure(t *testing.T) {
 					t.Errorf("OutputSummary panicked: %v", r)
 				}
 			}()
-			
+
 			// Test both with and without color
 			OutputSummary(tt.summary, true)
 			OutputSummary(tt.summary, false)
@@ -160,7 +160,7 @@ func TestOutputSummary_AvailableDomain(t *testing.T) {
 		Status:   "available",
 		Protocol: "RDAP",
 	}
-	
+
 	// We can't easily capture stdout, but we can test that it doesn't panic
 	// and that the function completes successfully
 	defer func() {
@@ -168,6 +168,6 @@ func TestOutputSummary_AvailableDomain(t *testing.T) {
 			t.Errorf("OutputSummary panicked for available domain: %v", r)
 		}
 	}()
-	
+
 	OutputSummary(summary, false) // No color for predictable output
 }

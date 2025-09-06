@@ -1,43 +1,33 @@
 run:
   timeout: 5m
-  modules-download-mode: readonly
-
-linters-settings:
-  gofmt:
-    simplify: true
-  goimports:
-    local-prefixes: regard
-  govet:
-    check-shadowing: true
-  misspell:
-    locale: US
-  unused:
-    check-exported: false
 
 linters:
   enable:
-    - gofmt
-    - goimports
+    - errcheck
     - govet
     - ineffassign
-    - misspell
-    - unused
-    - errcheck
-    - gosimple
     - staticcheck
+    - unused
+    - misspell
+    - unconvert
+    - unparam
+    - nolintlint
+    - gocritic
+    - gosimple
     - typecheck
-    - deadcode
-    - varcheck
-    - structcheck
-  disable:
-    - funlen
-    - gocognit
-    - gocyclo
-    - lll
-
+    
+linters-settings:
+  govet:
+    enable:
+      - shadow
+  misspell:
+    locale: US
+  gocritic:
+    disabled-checks:
+      - ifElseChain  # Too opinionated
+      
 issues:
   exclude-rules:
     - path: _test\.go
       linters:
         - errcheck
-        - gosec

@@ -4,17 +4,17 @@ import "time"
 
 // Summary represents a structured summary of domain information
 type Summary struct {
-	Domain         string            `json:"domain"`
-	Status         string            `json:"status"`
-	StatusDetails  []string          `json:"status_details,omitempty"`
-	Protocol       string            `json:"protocol"`
-	QueryType      string            `json:"query_type,omitempty"`
-	Timeline       Timeline          `json:"timeline"`
-	Nameservers    []string          `json:"nameservers"`
-	DNSSEC         DNSSECInfo        `json:"dnssec"`
-	Registrar      RegistrarInfo     `json:"registrar"`
-	PostExpiration *ExpirationInfo   `json:"post_expiration,omitempty"`
-	ASN            *ASNInfo          `json:"asn,omitempty"`
+	Domain         string          `json:"domain"`
+	Status         string          `json:"status"`
+	StatusDetails  []string        `json:"status_details,omitempty"`
+	Protocol       string          `json:"protocol"`
+	QueryType      string          `json:"query_type,omitempty"`
+	Timeline       Timeline        `json:"timeline"`
+	Nameservers    []string        `json:"nameservers"`
+	DNSSEC         DNSSECInfo      `json:"dnssec"`
+	Registrar      RegistrarInfo   `json:"registrar"`
+	PostExpiration *ExpirationInfo `json:"post_expiration,omitempty"`
+	ASN            *ASNInfo        `json:"asn,omitempty"`
 }
 
 // Timeline represents important dates in a domain's lifecycle

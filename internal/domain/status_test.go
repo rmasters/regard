@@ -71,7 +71,7 @@ Registrar: MarkMonitor Inc.
 Registrar IANA ID: 292
 Domain Status: some_unusual_status
 Name Server: NS1.GOOGLE.COM`,
-			expected:      "unknown",
+			expected: "unknown",
 		},
 		{
 			name:          "Available - no entries found",
@@ -109,7 +109,7 @@ Name Server: NS1.GOOGLE.COM`,
 		t.Run(tt.name, func(t *testing.T) {
 			result := InterpretStatus(tt.statusDetails, tt.rawData)
 			if result != tt.expected {
-				t.Errorf("InterpretStatus(%v, %q) = %q, want %q", 
+				t.Errorf("InterpretStatus(%v, %q) = %q, want %q",
 					tt.statusDetails, tt.rawData, result, tt.expected)
 			}
 		})

@@ -85,32 +85,32 @@ func TestParseWhoisData(t *testing.T) {
 func TestPerformWhoisQuery_Structure(t *testing.T) {
 	// Test the structure of the returned QueryResult without making actual network calls
 	// This tests the function structure, not the actual WHOIS lookup
-	
+
 	testQuery := "example.com"
-	
+
 	// We can't easily mock the whois.Whois call, so we'll test the structure
 	// by calling the function and checking error handling
 	result := PerformWhoisQuery(testQuery)
-	
+
 	// Basic structure checks
 	if result.Query != testQuery {
 		t.Errorf("Expected Query = %q, got %q", testQuery, result.Query)
 	}
-	
+
 	if result.Protocol != "WHOIS" {
 		t.Errorf("Expected Protocol = WHOIS, got %q", result.Protocol)
 	}
-	
+
 	if result.Type != string(QueryTypeDomain) {
 		t.Errorf("Expected Type = %q, got %q", string(QueryTypeDomain), result.Type)
 	}
-	
+
 	// Check timestamp is recent (within last minute)
 	now := time.Now()
 	if result.Timestamp.After(now) || result.Timestamp.Before(now.Add(-time.Minute)) {
 		t.Errorf("Timestamp seems incorrect: %v", result.Timestamp)
 	}
-	
+
 	// Result should either be successful with data, or failed with error
 	if result.Success {
 		if result.Data == nil {
@@ -119,9 +119,7 @@ func TestPerformWhoisQuery_Structure(t *testing.T) {
 		if result.RawData == "" {
 			t.Error("Expected RawData to be set when Success is true")
 		}
-	} else {
-		if result.Error == "" {
-			t.Error("Expected Error to be set when Success is false")
-		}
+	} else if result.Error == "" {
+		t.Error("Expected Error to be set when Success is false")
 	}
 }

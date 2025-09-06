@@ -21,7 +21,7 @@ func TestHumanReadableTime(t *testing.T) {
 			expected: "today",
 		},
 		{
-			name:     "Yesterday", 
+			name:     "Yesterday",
 			input:    now.Add(-24 * time.Hour),
 			expected: "yesterday",
 		},
@@ -37,7 +37,7 @@ func TestHumanReadableTime(t *testing.T) {
 		},
 		{
 			name:     "In 10 days",
-			input:    now.Add(10*24*time.Hour + time.Hour), // Add buffer 
+			input:    now.Add(10*24*time.Hour + time.Hour), // Add buffer
 			expected: "in 10 days",
 		},
 		{
@@ -53,12 +53,12 @@ func TestHumanReadableTime(t *testing.T) {
 		{
 			name:     "2 years ago",
 			input:    now.Add(-2 * 365 * 24 * time.Hour),
-			expected: "2 years ago", 
+			expected: "2 years ago",
 		},
 		{
 			name:     "In 1 year",
 			input:    now.Add(400 * 24 * time.Hour), // Use 400 days to be safely over 1 year
-			expected: "in 1 years", // Note: the function doesn't handle singular/plural
+			expected: "in 1 years",                  // Note: the function doesn't handle singular/plural
 		},
 	}
 
@@ -130,7 +130,7 @@ func TestParseWhoisDate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			result, err := parseWhoisDate(tt.input)
-			
+
 			if tt.wantErr {
 				if err == nil {
 					t.Errorf("parseWhoisDate(%q) expected error, got nil", tt.input)
@@ -154,16 +154,16 @@ func TestParseWhoisDate(t *testing.T) {
 func TestCreateSummary_Structure(t *testing.T) {
 	// Test the structure of CreateSummary with a mock QueryResult
 	testTime := time.Now()
-	
+
 	mockResult := query.QueryResult{
 		Query:     "example.com",
-		Type:      string(query.QueryTypeDomain), 
+		Type:      string(query.QueryTypeDomain),
 		Protocol:  "WHOIS",
 		Timestamp: testTime,
 		Success:   true,
 		Data: map[string]interface{}{
 			"parsed_fields": map[string]interface{}{
-				"domain_name":           "EXAMPLE.COM",
+				"domain_name":          "EXAMPLE.COM",
 				"registrar":            "Test Registrar",
 				"creation_date":        "2020-01-01T00:00:00Z",
 				"registry_expiry_date": "2025-01-01T00:00:00Z",
@@ -224,20 +224,17 @@ func TestCreateSummary_Structure(t *testing.T) {
 	}
 
 	// Test post-expiration guidance is added when there's an expiration date
-	if summary.PostExpiration == nil && summary.Timeline.Expiration != nil {
-		// Should have guidance since expiration is set
-		// Note: might be nil if expiration is far in future, which is OK
-	}
+	// Note: Guidance might be nil if expiration is far in future, which is OK
 }
 
 func TestCreateSummary_RDAP(t *testing.T) {
 	// Test basic RDAP structure handling
 	testTime := time.Now()
-	
+
 	mockRDAPData := map[string]interface{}{
 		"objectClassName": "domain",
-		"ldhName":        "example.com",
-		"Status":         []interface{}{"active"},
+		"ldhName":         "example.com",
+		"Status":          []interface{}{"active"},
 		"Events": []interface{}{
 			map[string]interface{}{
 				"Action": "registration",
@@ -250,11 +247,11 @@ func TestCreateSummary_RDAP(t *testing.T) {
 			},
 		},
 	}
-	
+
 	mockResult := query.QueryResult{
 		Query:     "example.com",
 		Type:      string(query.QueryTypeDomain),
-		Protocol:  "RDAP", 
+		Protocol:  "RDAP",
 		Timestamp: testTime,
 		Success:   true,
 		Data:      mockRDAPData,
@@ -263,7 +260,7 @@ func TestCreateSummary_RDAP(t *testing.T) {
 	summary := CreateSummary(mockResult)
 
 	if summary.Protocol != "RDAP" {
-		t.Errorf("Expected Protocol = RDAP, got %q", summary.Protocol) 
+		t.Errorf("Expected Protocol = RDAP, got %q", summary.Protocol)
 	}
 
 	if len(summary.StatusDetails) == 0 {
