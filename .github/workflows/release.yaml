@@ -55,7 +55,7 @@ jobs:
     needs: release
     
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
