@@ -17,7 +17,7 @@
 ### From Source
 
 ```bash
-git clone https://github.com/your-username/regard.git
+git clone https://github.com/rmasters/regard.git
 cd regard
 go build -o regard cmd/regard/main.go
 ```
@@ -26,6 +26,11 @@ go build -o regard cmd/regard/main.go
 
 ```bash
 go install github.com/rmasters/regard/cmd/regard@latest
+```
+
+### Using a container image
+```bash
+docker run ghcr.io/rmasters/regard:latest
 ```
 
 ## Usage
